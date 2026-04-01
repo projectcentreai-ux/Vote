@@ -7,11 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Poppins', sans-serif;
@@ -20,30 +16,195 @@
             min-height: 100vh;
         }
 
-        /* Background Glow */
         body::before {
             content: '';
             position: fixed;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 50%, rgba(139, 0, 0, 0.08) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 80%, rgba(100, 0, 0, 0.06) 0%, transparent 50%);
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(139,0,0,0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(100,0,0,0.06) 0%, transparent 50%);
             z-index: 0;
         }
 
+        /* ======= PASSWORD GATE ======= */
+        .password-gate {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            padding: 20px;
+        }
+
+        .password-card {
+            background: rgba(20, 5, 5, 0.98);
+            border: 1px solid rgba(139, 0, 0, 0.4);
+            border-radius: 20px;
+            padding: 60px 50px;
+            text-align: center;
+            max-width: 460px;
+            width: 100%;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 100px rgba(139,0,0,0.1);
+            position: relative;
+        }
+
+        .password-card .lock-icon {
+            width: 100px; height: 100px;
+            background: linear-gradient(135deg, #3d0000, #6b0000);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 2.8rem;
+            color: #ff4444;
+            border: 3px solid rgba(139,0,0,0.5);
+            animation: pulse-lock 2s infinite;
+            transition: all 0.5s;
+        }
+
+        @keyframes pulse-lock {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(139,0,0,0.4); }
+            50% { box-shadow: 0 0 0 20px rgba(139,0,0,0); }
+        }
+
+        .password-card h2 {
+            font-size: 2rem;
+            color: #ff4444;
+            margin-bottom: 8px;
+            font-weight: 800;
+        }
+
+        .password-card .subtitle {
+            color: #555;
+            font-size: 0.9rem;
+            margin-bottom: 40px;
+        }
+
+        .password-input-wrapper {
+            position: relative;
+            margin-bottom: 8px;
+        }
+
+        .password-input-wrapper input {
+            width: 100%;
+            padding: 18px 55px 18px 22px;
+            background: rgba(30, 10, 10, 0.9);
+            border: 2px solid rgba(139, 0, 0, 0.3);
+            border-radius: 14px;
+            color: #e0e0e0;
+            font-size: 1.15rem;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            transition: all 0.3s;
+            letter-spacing: 4px;
+            text-align: center;
+        }
+
+        .password-input-wrapper input:focus {
+            border-color: #ff4444;
+            box-shadow: 0 0 25px rgba(139, 0, 0, 0.3);
+        }
+
+        .password-input-wrapper input::placeholder {
+            color: #333;
+            letter-spacing: 2px;
+        }
+
+        .password-input-wrapper .toggle-eye {
+            position: absolute;
+            right: 18px; top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #555;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+            padding: 5px;
+        }
+
+        .password-input-wrapper .toggle-eye:hover { color: #ff4444; }
+
+        .password-error {
+            color: #ff4444;
+            font-size: 0.85rem;
+            min-height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+
+        .password-error.success { color: #00cc66; }
+
+        .btn-unlock {
+            width: 100%;
+            padding: 17px 30px;
+            background: linear-gradient(135deg, #8b0000, #cc0000);
+            border: none;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 1.15rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+            box-shadow: 0 8px 30px rgba(139,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            letter-spacing: 1px;
+        }
+
+        .btn-unlock:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(139,0,0,0.6);
+        }
+
+        .btn-unlock:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+        .attempts-info {
+            margin-top: 25px;
+            color: #333;
+            font-size: 0.8rem;
+        }
+
+        .attempts-info span { color: #ff4444; font-weight: 700; }
+
+        .lockout-countdown {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #ff4444;
+            margin: 20px 0;
+            font-variant-numeric: tabular-nums;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-8px); }
+            80% { transform: translateX(8px); }
+        }
+
+        /* ======= NAVBAR ======= */
         .navbar {
             position: fixed;
-            top: 0;
-            width: 100%;
+            top: 0; width: 100%;
             padding: 15px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: rgba(15, 0, 0, 0.95);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(139, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(139,0,0,0.3);
             z-index: 1000;
         }
 
@@ -62,7 +223,7 @@
             background: #8b0000;
             color: #fff;
             font-size: 0.65rem;
-            padding: 3px 10px;
+            padding: 3px 12px;
             border-radius: 20px;
             font-weight: 600;
             letter-spacing: 1px;
@@ -71,20 +232,7 @@
         .nav-right {
             display: flex;
             align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .nav-right img {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: 2px solid #8b0000;
-        }
-
-        .nav-right span {
-            color: #ccc;
-            font-size: 0.9rem;
+            gap: 12px;
         }
 
         .btn-nav {
@@ -103,269 +251,9 @@
             gap: 6px;
         }
 
-        .btn-nav:hover {
-            background: #8b0000;
-            color: #fff;
-        }
+        .btn-nav:hover { background: #8b0000; color: #fff; }
 
-        /* Password Gate */
-        .password-gate {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0a0a0a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 99999;
-            padding: 20px;
-        }
-
-        .password-card {
-            background: rgba(20, 5, 5, 0.98);
-            border: 1px solid rgba(139, 0, 0, 0.4);
-            border-radius: 20px;
-            padding: 60px 50px;
-            text-align: center;
-            max-width: 450px;
-            width: 100%;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 100px rgba(139, 0, 0, 0.1);
-        }
-
-        .password-card .lock-icon {
-            width: 90px;
-            height: 90px;
-            background: linear-gradient(135deg, #3d0000, #6b0000);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 30px;
-            font-size: 2.5rem;
-            color: #ff4444;
-            border: 3px solid rgba(139, 0, 0, 0.5);
-            animation: pulse-lock 2s infinite;
-        }
-
-        @keyframes pulse-lock {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(139, 0, 0, 0.4); }
-            50% { box-shadow: 0 0 0 15px rgba(139, 0, 0, 0); }
-        }
-
-        .password-card h2 {
-            font-size: 1.8rem;
-            color: #ff4444;
-            margin-bottom: 8px;
-            font-weight: 700;
-        }
-
-        .password-card .subtitle {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 35px;
-        }
-
-        .password-input-group {
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .password-input-group input {
-            width: 100%;
-            padding: 16px 55px 16px 20px;
-            background: rgba(30, 10, 10, 0.8);
-            border: 2px solid rgba(139, 0, 0, 0.3);
-            border-radius: 12px;
-            color: #e0e0e0;
-            font-size: 1.1rem;
-            font-family: 'Poppins', sans-serif;
-            outline: none;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            letter-spacing: 3px;
-            text-align: center;
-        }
-
-        .password-input-group input:focus {
-            border-color: #ff4444;
-            box-shadow: 0 0 20px rgba(139, 0, 0, 0.3);
-        }
-
-        .password-input-group input::placeholder {
-            color: #444;
-            letter-spacing: 1px;
-        }
-
-        .password-input-group .toggle-eye {
-            position: absolute;
-            right: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: #666;
-            cursor: pointer;
-            font-size: 1.1rem;
-            transition: color 0.3s;
-        }
-
-        .password-input-group .toggle-eye:hover {
-            color: #ff4444;
-        }
-
-        .password-error {
-            color: #ff4444;
-            font-size: 0.85rem;
-            margin-bottom: 15px;
-            min-height: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .password-error.visible i {
-            animation: shake 0.5s;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(-5px); }
-            40% { transform: translateX(5px); }
-            60% { transform: translateX(-5px); }
-            80% { transform: translateX(5px); }
-        }
-
-        .btn-unlock {
-            width: 100%;
-            padding: 16px 30px;
-            background: linear-gradient(135deg, #8b0000, #cc0000);
-            border: none;
-            border-radius: 12px;
-            color: #fff;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s;
-            box-shadow: 0 5px 25px rgba(139, 0, 0, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            letter-spacing: 1px;
-        }
-
-        .btn-unlock:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 35px rgba(139, 0, 0, 0.6);
-        }
-
-        .btn-unlock:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .password-card .attempts-left {
-            margin-top: 20px;
-            color: #444;
-            font-size: 0.8rem;
-        }
-
-        .password-card .attempts-left span {
-            color: #ff4444;
-            font-weight: 600;
-        }
-
-        /* Lockout Screen */
-        .lockout-screen {
-            text-align: center;
-        }
-
-        .lockout-screen .lock-icon {
-            background: linear-gradient(135deg, #3d0000, #1a0000) !important;
-            border-color: #440000 !important;
-            color: #661111 !important;
-            animation: none !important;
-        }
-
-        .lockout-screen h2 {
-            color: #881111 !important;
-        }
-
-        .lockout-screen .countdown {
-            font-size: 3rem;
-            color: #ff4444;
-            font-weight: 800;
-            margin: 20px 0;
-        }
-
-        /* Login Section */
-        .login-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 40px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .login-card {
-            background: rgba(20, 5, 5, 0.95);
-            border: 1px solid rgba(139, 0, 0, 0.3);
-            border-radius: 20px;
-            padding: 60px 50px;
-            text-align: center;
-            max-width: 450px;
-            width: 100%;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        .login-card .icon-circle {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #8b0000, #cc0000);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 30px;
-            font-size: 2rem;
-            color: #fff;
-            box-shadow: 0 10px 30px rgba(139, 0, 0, 0.4);
-        }
-
-        .login-card h2 { font-size: 1.8rem; color: #ff4444; margin-bottom: 10px; }
-        .login-card p { color: #888; margin-bottom: 35px; font-size: 0.95rem; }
-
-        .btn-google {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            width: 100%;
-            padding: 15px 30px;
-            background: linear-gradient(135deg, #8b0000, #b30000);
-            border: none;
-            border-radius: 12px;
-            color: #fff;
-            font-size: 1.05rem;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s;
-            box-shadow: 0 5px 25px rgba(139, 0, 0, 0.4);
-        }
-
-        .btn-google:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 35px rgba(139, 0, 0, 0.6);
-        }
-
-        /* Main Content */
+        /* ======= MAIN CONTENT ======= */
         .main-content {
             margin-top: 80px;
             padding: 40px;
@@ -385,7 +273,7 @@
 
         .stat-card {
             background: rgba(20, 5, 5, 0.95);
-            border: 1px solid rgba(139, 0, 0, 0.2);
+            border: 1px solid rgba(139,0,0,0.2);
             border-radius: 16px;
             padding: 30px;
             display: flex;
@@ -397,12 +285,11 @@
         .stat-card:hover {
             border-color: #8b0000;
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(139, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(139,0,0,0.2);
         }
 
         .stat-card .icon {
-            width: 60px;
-            height: 60px;
+            width: 60px; height: 60px;
             border-radius: 14px;
             display: flex;
             align-items: center;
@@ -410,16 +297,17 @@
             font-size: 1.5rem;
         }
 
-        .stat-card .icon.red { background: rgba(139, 0, 0, 0.3); color: #ff4444; }
-        .stat-card .icon.green { background: rgba(0, 139, 0, 0.2); color: #44ff44; }
-        .stat-card .icon.blue { background: rgba(0, 0, 139, 0.3); color: #4488ff; }
+        .stat-card .icon.red { background: rgba(139,0,0,0.3); color: #ff4444; }
+        .stat-card .icon.green { background: rgba(0,139,0,0.2); color: #44ff44; }
+        .stat-card .icon.blue { background: rgba(0,0,139,0.3); color: #4488ff; }
+        .stat-card .icon.orange { background: rgba(200,100,0,0.2); color: #ffaa44; }
 
         .stat-card .info h3 { font-size: 2rem; color: #fff; font-weight: 700; }
         .stat-card .info p { color: #888; font-size: 0.85rem; }
 
         .panel-section {
             background: rgba(20, 5, 5, 0.95);
-            border: 1px solid rgba(139, 0, 0, 0.2);
+            border: 1px solid rgba(139,0,0,0.2);
             border-radius: 16px;
             padding: 30px;
             margin-bottom: 30px;
@@ -439,7 +327,6 @@
         .form-row {
             display: flex;
             gap: 15px;
-            margin-bottom: 15px;
             flex-wrap: wrap;
         }
 
@@ -448,7 +335,7 @@
             min-width: 200px;
             padding: 14px 20px;
             background: rgba(30, 10, 10, 0.8);
-            border: 1px solid rgba(139, 0, 0, 0.3);
+            border: 1px solid rgba(139,0,0,0.3);
             border-radius: 10px;
             color: #e0e0e0;
             font-size: 1rem;
@@ -474,15 +361,15 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
         }
 
         .btn-add:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(139, 0, 0, 0.4);
+            box-shadow: 0 8px 25px rgba(139,0,0,0.4);
         }
 
         .table-container { overflow-x: auto; }
-
         table { width: 100%; border-collapse: collapse; }
 
         table thead th {
@@ -493,29 +380,25 @@
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            border-bottom: 1px solid rgba(139, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(139,0,0,0.3);
         }
 
         table tbody td {
             padding: 18px 20px;
-            border-bottom: 1px solid rgba(139, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(139,0,0,0.1);
             color: #ccc;
             font-size: 0.95rem;
         }
 
         table tbody tr { transition: background 0.3s; }
-        table tbody tr:hover { background: rgba(139, 0, 0, 0.1); }
+        table tbody tr:hover { background: rgba(139,0,0,0.1); }
 
-        .votes-bar {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .votes-bar { display: flex; align-items: center; gap: 12px; }
 
         .votes-bar .bar {
             flex: 1;
-            height: 8px;
-            background: rgba(139, 0, 0, 0.2);
+            height: 10px;
+            background: rgba(139,0,0,0.2);
             border-radius: 10px;
             overflow: hidden;
             min-width: 100px;
@@ -525,19 +408,14 @@
             height: 100%;
             background: linear-gradient(90deg, #8b0000, #ff0000);
             border-radius: 10px;
-            transition: width 0.5s;
+            transition: width 0.6s;
         }
 
-        .votes-bar .count {
-            font-weight: 700;
-            color: #ff4444;
-            min-width: 40px;
-            text-align: right;
-        }
+        .votes-bar .count { font-weight: 700; color: #ff4444; min-width: 40px; text-align: right; }
 
         .btn-delete {
             padding: 8px 18px;
-            background: rgba(139, 0, 0, 0.3);
+            background: rgba(139,0,0,0.3);
             border: 1px solid #8b0000;
             color: #ff4444;
             border-radius: 8px;
@@ -549,37 +427,36 @@
 
         .btn-delete:hover { background: #8b0000; color: #fff; }
 
-        .voters-list { max-height: 400px; overflow-y: auto; }
+        .voters-list { max-height: 500px; overflow-y: auto; }
 
         .voter-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 15px 20px;
-            border-bottom: 1px solid rgba(139, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(139,0,0,0.1);
             transition: background 0.3s;
         }
 
-        .voter-item:hover { background: rgba(139, 0, 0, 0.1); }
-
+        .voter-item:hover { background: rgba(139,0,0,0.1); }
         .voter-item .voter-info { display: flex; align-items: center; gap: 12px; }
 
         .voter-item .voter-avatar {
-            width: 40px;
-            height: 40px;
+            width: 42px; height: 42px;
             border-radius: 50%;
-            background: rgba(139, 0, 0, 0.3);
+            background: rgba(139,0,0,0.3);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #ff4444;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 1.1rem;
         }
 
         .voter-item .voter-name { color: #e0e0e0; font-weight: 500; }
-        .voter-item .voter-email { color: #777; font-size: 0.8rem; }
-        .voter-item .voted-for { color: #ff4444; font-weight: 500; font-size: 0.9rem; text-align: right; }
-        .voter-item .voted-time { color: #555; font-size: 0.75rem; }
+        .voter-item .voter-email { color: #666; font-size: 0.8rem; }
+        .voter-item .voted-for { color: #ff4444; font-weight: 600; font-size: 0.9rem; text-align: right; }
+        .voter-item .voted-time { color: #444; font-size: 0.75rem; }
 
         .btn-reset {
             padding: 14px 35px;
@@ -592,7 +469,7 @@
             font-size: 1rem;
             font-weight: 600;
             transition: all 0.3s;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 8px;
         }
@@ -608,35 +485,32 @@
 
         .toggle-switch {
             position: relative;
-            width: 60px;
-            height: 30px;
-            background: rgba(139, 0, 0, 0.3);
+            width: 60px; height: 30px;
+            background: rgba(139,0,0,0.3);
             border-radius: 30px;
             cursor: pointer;
             transition: background 0.3s;
-            border: 1px solid rgba(139, 0, 0, 0.5);
+            border: 1px solid rgba(139,0,0,0.5);
         }
 
         .toggle-switch.active { background: #00cc66; border-color: #00cc66; }
 
         .toggle-switch .toggle-knob {
             position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 22px;
-            height: 22px;
+            top: 3px; left: 3px;
+            width: 22px; height: 22px;
             background: #fff;
             border-radius: 50%;
             transition: left 0.3s;
         }
 
         .toggle-switch.active .toggle-knob { left: 33px; }
-        .toggle-label { color: #ccc; font-weight: 500; }
+        .toggle-label { color: #ccc; font-weight: 500; font-size: 1rem; }
 
+        /* Toast */
         .toast {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
+            bottom: 30px; right: 30px;
             padding: 18px 30px;
             background: rgba(20, 5, 5, 0.95);
             border: 1px solid #8b0000;
@@ -647,47 +521,18 @@
             z-index: 9999;
             transform: translateX(200%);
             transition: transform 0.4s;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .toast.show { transform: translateX(0); }
         .toast.success { border-color: #00cc66; color: #00cc66; }
 
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0a0a0a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(139, 0, 0, 0.2);
-            border-top-color: #ff0000;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .hidden { display: none !important; }
-
+        /* Modal */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.75);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -706,7 +551,6 @@
 
         .modal-box h3 { color: #ff4444; font-size: 1.4rem; margin-bottom: 15px; }
         .modal-box p { color: #888; margin-bottom: 30px; }
-
         .modal-buttons { display: flex; gap: 15px; justify-content: center; }
 
         .modal-buttons button {
@@ -724,7 +568,8 @@
         .btn-cancel { background: transparent; border: 1px solid #555; color: #ccc; }
         .btn-cancel:hover { border-color: #888; }
 
-        /* Scrollbar */
+        .hidden { display: none !important; }
+
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #0a0a0a; }
         ::-webkit-scrollbar-thumb { background: #8b0000; border-radius: 3px; }
@@ -736,7 +581,8 @@
             .form-row { flex-direction: column; }
             .stats-row { grid-template-columns: 1fr; }
             .password-card { padding: 40px 25px; }
-            .nav-right span { display: none; }
+            .nav-right { gap: 8px; }
+            .btn-nav { padding: 6px 14px; font-size: 0.8rem; }
         }
     </style>
 </head>
@@ -744,23 +590,26 @@
 
     <!-- ==================== PASSWORD GATE ==================== -->
     <div class="password-gate" id="passwordGate">
-        <div class="password-card" id="passwordCard">
-            <div class="lock-icon">
-                <i class="fas fa-lock"></i>
-            </div>
-            <h2>Admin Access</h2>
-            <p class="subtitle">Enter the admin password to continue</p>
 
-            <div class="password-input-group">
+        <!-- Normal Password Card -->
+        <div class="password-card" id="passwordCard">
+            <div class="lock-icon" id="lockIconMain">
+                <i class="fas fa-lock" id="lockIconI"></i>
+            </div>
+            <h2>Admin Panel</h2>
+            <p class="subtitle">Enter the admin password to access election controls</p>
+
+            <div class="password-input-wrapper">
                 <input
                     type="password"
                     id="adminPassword"
-                    placeholder="••••••••••"
+                    placeholder="Enter password"
                     maxlength="30"
                     autocomplete="off"
                     onkeydown="if(event.key==='Enter') checkPassword()"
+                    autofocus
                 >
-                <button class="toggle-eye" onclick="togglePasswordVisibility()">
+                <button class="toggle-eye" onclick="toggleEye()">
                     <i class="fas fa-eye" id="eyeIcon"></i>
                 </button>
             </div>
@@ -769,73 +618,30 @@
 
             <button class="btn-unlock" id="btnUnlock" onclick="checkPassword()">
                 <i class="fas fa-unlock-alt"></i>
-                Unlock Admin Panel
+                Unlock Panel
             </button>
 
-            <div class="attempts-left" id="attemptsInfo">
+            <div class="attempts-info">
                 Attempts remaining: <span id="attemptsCount">5</span>
             </div>
         </div>
 
-        <!-- Lockout Card (hidden by default) -->
-        <div class="password-card lockout-screen hidden" id="lockoutCard">
-            <div class="lock-icon">
+        <!-- Lockout Card -->
+        <div class="password-card hidden" id="lockoutCard" style="border-color: rgba(80,0,0,0.4);">
+            <div class="lock-icon" style="background:linear-gradient(135deg,#1a0000,#330000); border-color:#440000; color:#661111; animation:none;">
                 <i class="fas fa-ban"></i>
             </div>
-            <h2>Too Many Failed Attempts</h2>
-            <p class="subtitle">You have been temporarily locked out</p>
-            <div class="countdown" id="lockoutCountdown">60</div>
-            <p style="color: #555; font-size: 0.85rem;">seconds until you can try again</p>
+            <h2 style="color:#881111;">Locked Out</h2>
+            <p class="subtitle">Too many failed attempts. Please wait.</p>
+            <div class="lockout-countdown" id="lockoutCountdown">60</div>
+            <p style="color:#444; font-size:0.85rem;">seconds remaining</p>
         </div>
-    </div>
 
-    <!-- ==================== LOADING ==================== -->
-    <div class="loading-overlay hidden" id="loadingOverlay">
-        <div class="spinner"></div>
-        <p>Loading Admin Panel...</p>
-    </div>
-
-    <!-- ==================== LOGIN PAGE ==================== -->
-    <div id="loginPage" class="hidden">
-        <div class="login-section">
-            <div class="login-card">
-                <div class="icon-circle">
-                    <i class="fas fa-user-shield"></i>
-                </div>
-                <h2>Admin Authentication</h2>
-                <p>Sign in with your Google account. Only authorized admins can access this panel.</p>
-                <button class="btn-google" onclick="signInAdmin()">
-                    <i class="fab fa-google"></i>
-                    Sign in with Google
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ==================== ACCESS DENIED ==================== -->
-    <div id="accessDenied" class="hidden">
-        <nav class="navbar">
-            <div class="logo">
-                <i class="fas fa-vote-yea"></i>
-                <span>ElectVote</span>
-            </div>
-            <button class="btn-nav" onclick="signOutAdmin()">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </button>
-        </nav>
-        <div style="text-align:center; padding:150px 40px; position:relative; z-index:1;">
-            <i class="fas fa-ban" style="font-size:5rem; color:#ff4444; margin-bottom:20px;"></i>
-            <h2 style="color: #ff4444; font-size: 2rem; margin-bottom: 10px;">Access Denied</h2>
-            <p style="color: #888;">Your account is not authorized to access the admin panel.</p>
-            <p style="color: #555; font-size: 0.85rem; margin-top: 15px;">Contact the election administrator for access.</p>
-            <button class="btn-nav" onclick="signOutAdmin()" style="margin-top:30px; padding:12px 30px;">
-                Sign Out & Try Again
-            </button>
-        </div>
     </div>
 
     <!-- ==================== ADMIN PANEL ==================== -->
     <div id="adminPanel" class="hidden">
+
         <nav class="navbar">
             <div class="logo">
                 <i class="fas fa-vote-yea"></i>
@@ -843,14 +649,13 @@
                 <span class="admin-badge">ADMIN</span>
             </div>
             <div class="nav-right">
-                <img id="adminPhoto" src="" alt="Admin">
-                <span id="adminName"></span>
                 <a href="index.html" class="btn-nav"><i class="fas fa-external-link-alt"></i> Voter Page</a>
-                <button class="btn-nav" onclick="signOutAdmin()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                <button class="btn-nav" onclick="lockPanel()"><i class="fas fa-lock"></i> Lock</button>
             </div>
         </nav>
 
         <div class="main-content">
+
             <!-- Stats -->
             <div class="stats-row">
                 <div class="stat-card">
@@ -870,53 +675,62 @@
                 <div class="stat-card">
                     <div class="icon blue"><i class="fas fa-trophy"></i></div>
                     <div class="info">
-                        <h3 id="leadingCandidate" style="font-size: 1.2rem;">-</h3>
+                        <h3 id="leadingCandidate" style="font-size:1.2rem;">-</h3>
                         <p>Leading Candidate</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="icon orange"><i class="fas fa-signal"></i></div>
+                    <div class="info">
+                        <h3 id="electionStatusStat" style="font-size:1.2rem;">-</h3>
+                        <p>Election Status</p>
                     </div>
                 </div>
             </div>
 
             <!-- Election Control -->
             <div class="panel-section">
-                <h2><i class="fas fa-cog"></i> Election Control</h2>
+                <h2><i class="fas fa-power-off"></i> Election Control</h2>
                 <div class="election-toggle">
                     <div class="toggle-switch" id="electionToggle" onclick="toggleElection()">
                         <div class="toggle-knob"></div>
                     </div>
                     <span class="toggle-label" id="electionStatus">Election is OFF</span>
                 </div>
-                <p style="color: #666; font-size: 0.85rem;">When election is OFF, voters cannot cast votes.</p>
+                <p style="color:#555; font-size:0.85rem;">When OFF, voters cannot cast votes. Toggle to start or stop the election.</p>
             </div>
 
             <!-- Add Candidate -->
             <div class="panel-section">
-                <h2><i class="fas fa-user-plus"></i> Add Candidate</h2>
+                <h2><i class="fas fa-user-plus"></i> Add New Candidate</h2>
                 <div class="form-row">
-                    <input type="text" id="candidateName" placeholder="Candidate Full Name" maxlength="50">
-                    <input type="text" id="candidateSlogan" placeholder="Slogan / Tagline (optional)" maxlength="100">
+                    <input type="text" id="candidateName" placeholder="Candidate Full Name" maxlength="50"
+                        onkeydown="if(event.key==='Enter') addCandidate()">
+                    <input type="text" id="candidateSlogan" placeholder="Slogan / Tagline (optional)" maxlength="100"
+                        onkeydown="if(event.key==='Enter') addCandidate()">
                     <button class="btn-add" onclick="addCandidate()">
-                        <i class="fas fa-plus"></i> Add
+                        <i class="fas fa-plus"></i> Add Candidate
                     </button>
                 </div>
             </div>
 
             <!-- Candidates & Results -->
             <div class="panel-section">
-                <h2><i class="fas fa-chart-bar"></i> Candidates & Results</h2>
+                <h2><i class="fas fa-chart-bar"></i> Candidates & Live Results</h2>
                 <div class="table-container">
                     <table>
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Candidate Name</th>
+                                <th>Candidate</th>
                                 <th>Slogan</th>
                                 <th>Votes</th>
-                                <th>Percentage</th>
-                                <th>Actions</th>
+                                <th>%</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody id="candidatesTable">
-                            <tr><td colspan="6" style="text-align:center; color:#888; padding:30px;">Loading...</td></tr>
+                            <tr><td colspan="6" style="text-align:center;color:#555;padding:40px;">Loading...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -926,15 +740,15 @@
             <div class="panel-section">
                 <h2><i class="fas fa-list-alt"></i> Voter Logs</h2>
                 <div class="voters-list" id="votersList">
-                    <p style="text-align:center; color:#888; padding:30px;">Loading...</p>
+                    <p style="text-align:center;color:#555;padding:40px;">Loading...</p>
                 </div>
             </div>
 
             <!-- Danger Zone -->
-            <div class="panel-section" style="border-color: rgba(255, 0, 0, 0.3);">
-                <h2 style="color: #ff0000;"><i class="fas fa-exclamation-triangle"></i> Danger Zone</h2>
-                <p style="color: #888; margin-bottom: 20px; font-size: 0.9rem;">
-                    Reset all votes. This action cannot be undone.
+            <div class="panel-section" style="border-color:rgba(255,0,0,0.3);">
+                <h2 style="color:#ff0000;"><i class="fas fa-exclamation-triangle"></i> Danger Zone</h2>
+                <p style="color:#666; margin-bottom:20px; font-size:0.9rem;">
+                    Reset all votes. This cannot be undone. All voter records will be permanently deleted.
                 </p>
                 <button class="btn-reset" onclick="showResetModal()">
                     <i class="fas fa-undo"></i> Reset All Votes
@@ -943,44 +757,39 @@
         </div>
     </div>
 
-    <!-- Confirm Reset Modal -->
+    <!-- Reset Modal -->
     <div class="modal-overlay hidden" id="confirmModal">
         <div class="modal-box">
             <h3><i class="fas fa-exclamation-triangle"></i> Confirm Reset</h3>
-            <p>Are you sure you want to reset ALL votes? This action cannot be undone.</p>
+            <p>Delete ALL votes and reset every candidate to 0? This cannot be undone.</p>
             <div class="modal-buttons">
                 <button class="btn-cancel" onclick="hideResetModal()">Cancel</button>
-                <button class="btn-confirm" onclick="resetAllVotes()">
-                    <i class="fas fa-trash"></i> Reset All
-                </button>
+                <button class="btn-confirm" onclick="resetAllVotes()"><i class="fas fa-trash"></i> Reset All</button>
             </div>
         </div>
     </div>
 
-    <!-- Delete Candidate Modal -->
+    <!-- Delete Modal -->
     <div class="modal-overlay hidden" id="deleteModal">
         <div class="modal-box">
             <h3><i class="fas fa-user-minus"></i> Delete Candidate</h3>
-            <p>Are you sure you want to remove this candidate?</p>
+            <p id="deleteMessage">Are you sure you want to remove this candidate?</p>
             <div class="modal-buttons">
                 <button class="btn-cancel" onclick="hideDeleteModal()">Cancel</button>
-                <button class="btn-confirm" id="btnConfirmDelete">
-                    <i class="fas fa-trash"></i> Delete
-                </button>
+                <button class="btn-confirm" id="btnConfirmDelete"><i class="fas fa-trash"></i> Delete</button>
             </div>
         </div>
     </div>
 
     <div class="toast" id="toast"></div>
 
-    <!-- Firebase SDKs -->
+    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore-compat.js"></script>
 
     <script>
         // =====================================================
-        //  PASSWORD PROTECTION SYSTEM
+        //  PASSWORD SYSTEM
         // =====================================================
         const ADMIN_PASSWORD = "guruisthelead";
         const MAX_ATTEMPTS = 5;
@@ -988,34 +797,32 @@
 
         let attempts = MAX_ATTEMPTS;
         let isLocked = false;
-        let lockoutTimer = null;
+        let lockoutInterval = null;
 
-        // Check if already authenticated in this session
-        (function checkSession() {
-            const sessionAuth = sessionStorage.getItem('adminAuth');
-            if (sessionAuth === 'true') {
-                bypassPasswordGate();
-            } else {
-                document.getElementById('passwordGate').classList.remove('hidden');
-                document.getElementById('adminPassword').focus();
+        // Restore state
+        (function init() {
+            // Check session
+            if (sessionStorage.getItem('adminUnlocked') === 'true') {
+                unlockPanel();
+                return;
             }
 
             // Check lockout
-            const lockoutUntil = localStorage.getItem('adminLockout');
-            if (lockoutUntil) {
-                const remaining = Math.ceil((parseInt(lockoutUntil) - Date.now()) / 1000);
+            const lockUntil = localStorage.getItem('adminLockUntil');
+            if (lockUntil) {
+                const remaining = Math.ceil((parseInt(lockUntil) - Date.now()) / 1000);
                 if (remaining > 0) {
                     startLockout(remaining);
                 } else {
-                    localStorage.removeItem('adminLockout');
+                    localStorage.removeItem('adminLockUntil');
                     localStorage.removeItem('adminAttempts');
                 }
             }
 
             // Restore attempts
-            const savedAttempts = localStorage.getItem('adminAttempts');
-            if (savedAttempts) {
-                attempts = parseInt(savedAttempts);
+            const saved = localStorage.getItem('adminAttempts');
+            if (saved) {
+                attempts = parseInt(saved);
                 document.getElementById('attemptsCount').textContent = attempts;
             }
         })();
@@ -1024,53 +831,49 @@
             if (isLocked) return;
 
             const input = document.getElementById('adminPassword').value;
-            const errorDiv = document.getElementById('passwordError');
+            const errDiv = document.getElementById('passwordError');
 
             if (!input) {
-                errorDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> Please enter the password';
-                errorDiv.classList.add('visible');
+                errDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> Please enter the password';
+                errDiv.classList.remove('success');
                 return;
             }
 
             if (input === ADMIN_PASSWORD) {
-                // SUCCESS
-                sessionStorage.setItem('adminAuth', 'true');
+                // ✅ SUCCESS
+                sessionStorage.setItem('adminUnlocked', 'true');
                 localStorage.removeItem('adminAttempts');
-                localStorage.removeItem('adminLockout');
+                localStorage.removeItem('adminLockUntil');
 
-                // Animate success
-                const lockIcon = document.querySelector('.password-card .lock-icon');
-                lockIcon.innerHTML = '<i class="fas fa-unlock"></i>';
-                lockIcon.style.background = 'linear-gradient(135deg, #006600, #00aa00)';
-                lockIcon.style.borderColor = '#00cc66';
-                errorDiv.innerHTML = '<i class="fas fa-check-circle"></i> Access Granted!';
-                errorDiv.style.color = '#00cc66';
-                errorDiv.classList.add('visible');
+                // Animate
+                document.getElementById('lockIconMain').style.background = 'linear-gradient(135deg, #006600, #00aa00)';
+                document.getElementById('lockIconMain').style.borderColor = '#00cc66';
+                document.getElementById('lockIconMain').style.animation = 'none';
+                document.getElementById('lockIconI').className = 'fas fa-unlock';
+                errDiv.innerHTML = '<i class="fas fa-check-circle"></i> Access Granted!';
+                errDiv.classList.add('success');
+                document.getElementById('btnUnlock').disabled = true;
 
-                setTimeout(() => {
-                    bypassPasswordGate();
-                }, 800);
+                setTimeout(() => unlockPanel(), 900);
             } else {
-                // FAILED
+                // ❌ WRONG
                 attempts--;
                 localStorage.setItem('adminAttempts', attempts);
                 document.getElementById('attemptsCount').textContent = attempts;
 
-                errorDiv.innerHTML = '<i class="fas fa-times-circle"></i> Incorrect password!';
-                errorDiv.classList.add('visible');
+                errDiv.innerHTML = '<i class="fas fa-times-circle"></i> Wrong password!';
+                errDiv.classList.remove('success');
 
-                // Shake animation
+                // Shake
                 const card = document.getElementById('passwordCard');
                 card.style.animation = 'shake 0.5s';
-                setTimeout(() => { card.style.animation = ''; }, 500);
+                setTimeout(() => card.style.animation = '', 500);
 
                 document.getElementById('adminPassword').value = '';
                 document.getElementById('adminPassword').focus();
 
                 if (attempts <= 0) {
-                    // LOCKOUT
-                    const lockoutUntil = Date.now() + (LOCKOUT_SECONDS * 1000);
-                    localStorage.setItem('adminLockout', lockoutUntil);
+                    localStorage.setItem('adminLockUntil', Date.now() + LOCKOUT_SECONDS * 1000);
                     startLockout(LOCKOUT_SECONDS);
                 }
             }
@@ -1084,15 +887,14 @@
             let remaining = seconds;
             document.getElementById('lockoutCountdown').textContent = remaining;
 
-            lockoutTimer = setInterval(() => {
+            lockoutInterval = setInterval(() => {
                 remaining--;
                 document.getElementById('lockoutCountdown').textContent = remaining;
-
                 if (remaining <= 0) {
-                    clearInterval(lockoutTimer);
+                    clearInterval(lockoutInterval);
                     isLocked = false;
                     attempts = MAX_ATTEMPTS;
-                    localStorage.removeItem('adminLockout');
+                    localStorage.removeItem('adminLockUntil');
                     localStorage.setItem('adminAttempts', attempts);
 
                     document.getElementById('lockoutCard').classList.add('hidden');
@@ -1101,142 +903,95 @@
                     document.getElementById('passwordError').innerHTML = '';
                     document.getElementById('adminPassword').value = '';
                     document.getElementById('adminPassword').focus();
+
+                    // Reset lock icon
+                    document.getElementById('lockIconMain').style.background = '';
+                    document.getElementById('lockIconMain').style.borderColor = '';
+                    document.getElementById('lockIconMain').style.animation = '';
+                    document.getElementById('lockIconI').className = 'fas fa-lock';
+                    document.getElementById('btnUnlock').disabled = false;
                 }
             }, 1000);
         }
 
-        function bypassPasswordGate() {
+        function unlockPanel() {
             document.getElementById('passwordGate').classList.add('hidden');
-            document.getElementById('loadingOverlay').classList.remove('hidden');
-            initFirebaseAdmin();
+            document.getElementById('adminPanel').classList.remove('hidden');
+            initFirebase();
         }
 
-        function togglePasswordVisibility() {
-            const input = document.getElementById('adminPassword');
-            const icon = document.getElementById('eyeIcon');
+        function lockPanel() {
+            sessionStorage.removeItem('adminUnlocked');
+            window.location.reload();
+        }
 
-            if (input.type === 'password') {
-                input.type = 'text';
+        function toggleEye() {
+            const inp = document.getElementById('adminPassword');
+            const icon = document.getElementById('eyeIcon');
+            if (inp.type === 'password') {
+                inp.type = 'text';
                 icon.className = 'fas fa-eye-slash';
             } else {
-                input.type = 'password';
+                inp.type = 'password';
                 icon.className = 'fas fa-eye';
             }
         }
 
         // =====================================================
-        //  FIREBASE ADMIN SYSTEM
+        //  FIREBASE + ADMIN FUNCTIONS
         // =====================================================
-        let firebaseInitialized = false;
-        let currentAdmin = null;
+        let db;
+        let firebaseReady = false;
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBM25NVnbefEUduMIo7A5t38sMqeUfAfvA",
-            authDomain: "vote-2efdd.firebaseapp.com",
-            projectId: "vote-2efdd",
-            storageBucket: "vote-2efdd.firebasestorage.app",
-            messagingSenderId: "515642496189",
-            appId: "1:515642496189:web:9763a80f54b0ccea28d3d4"
-        };
+        function initFirebase() {
+            if (firebaseReady) return;
 
-        function initFirebaseAdmin() {
-            if (!firebaseInitialized) {
-                firebase.initializeApp(firebaseConfig);
-                firebaseInitialized = true;
-            }
+            const firebaseConfig = {
+                apiKey: "AIzaSyBM25NVnbefEUduMIo7A5t38sMqeUfAfvA",
+                authDomain: "vote-2efdd.firebaseapp.com",
+                projectId: "vote-2efdd",
+                storageBucket: "vote-2efdd.firebasestorage.app",
+                messagingSenderId: "515642496189",
+                appId: "1:515642496189:web:9763a80f54b0ccea28d3d4"
+            };
 
-            const auth = firebase.auth();
-            const db = firebase.firestore();
-            const provider = new firebase.auth.GoogleAuthProvider();
+            firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore();
+            firebaseReady = true;
 
-            // Make globally accessible
-            window.auth = auth;
-            window.db = db;
-            window.provider = provider;
+            loadDashboard();
 
-            auth.onAuthStateChanged(async (user) => {
-                hideLoading();
-                if (user) {
-                    const isAdmin = await checkAdminAccess(user.email);
-                    if (isAdmin) {
-                        currentAdmin = user;
-                        document.getElementById('loginPage').classList.add('hidden');
-                        document.getElementById('accessDenied').classList.add('hidden');
-                        document.getElementById('adminPanel').classList.remove('hidden');
-                        document.getElementById('adminPhoto').src = user.photoURL || 'https://via.placeholder.com/36';
-                        document.getElementById('adminName').textContent = user.displayName || user.email;
-                        loadDashboard();
-                    } else {
-                        document.getElementById('loginPage').classList.add('hidden');
-                        document.getElementById('adminPanel').classList.add('hidden');
-                        document.getElementById('accessDenied').classList.remove('hidden');
-                    }
-                } else {
-                    currentAdmin = null;
-                    document.getElementById('loginPage').classList.remove('hidden');
-                    document.getElementById('adminPanel').classList.add('hidden');
-                    document.getElementById('accessDenied').classList.add('hidden');
-                }
-            });
+            // Auto refresh every 8 seconds
+            setInterval(loadDashboard, 8000);
         }
 
-        // ============ ADMIN EMAILS ============
-        const ADMIN_EMAILS = [
-            "your-admin-email@gmail.com"
-            // Add more admin emails here
-        ];
-
-        async function checkAdminAccess(email) {
-            if (ADMIN_EMAILS.includes(email.toLowerCase())) return true;
-            try {
-                const doc = await db.collection('admins').doc(email.toLowerCase()).get();
-                return doc.exists;
-            } catch (e) {
-                return false;
-            }
-        }
-
-        function signInAdmin() {
-            auth.signInWithPopup(provider).catch((error) => {
-                showToast('Error: ' + error.message);
-            });
-        }
-
-        function signOutAdmin() {
-            sessionStorage.removeItem('adminAuth');
-            auth.signOut().then(() => {
-                window.location.reload();
-            });
-        }
-
-        function hideLoading() {
-            setTimeout(() => {
-                document.getElementById('loadingOverlay').classList.add('hidden');
-            }, 800);
-        }
-
-        // Dashboard
         async function loadDashboard() {
             await loadCandidatesTable();
             await loadVoterLogs();
             await loadElectionStatus();
         }
 
+        // Election Toggle
         async function loadElectionStatus() {
             try {
                 const doc = await db.collection('settings').doc('election').get();
                 const isActive = doc.exists ? doc.data().active : false;
                 const toggle = document.getElementById('electionToggle');
-                const status = document.getElementById('electionStatus');
+                const label = document.getElementById('electionStatus');
+                const statLabel = document.getElementById('electionStatusStat');
 
                 if (isActive) {
                     toggle.classList.add('active');
-                    status.textContent = 'Election is LIVE';
-                    status.style.color = '#00cc66';
+                    label.textContent = 'Election is LIVE';
+                    label.style.color = '#00cc66';
+                    statLabel.textContent = '🟢 LIVE';
+                    statLabel.style.color = '#00cc66';
                 } else {
                     toggle.classList.remove('active');
-                    status.textContent = 'Election is OFF';
-                    status.style.color = '#ff4444';
+                    label.textContent = 'Election is OFF';
+                    label.style.color = '#ff4444';
+                    statLabel.textContent = '🔴 OFF';
+                    statLabel.style.color = '#ff4444';
                 }
             } catch (e) { console.error(e); }
         }
@@ -1244,7 +999,6 @@
         async function toggleElection() {
             const toggle = document.getElementById('electionToggle');
             const isActive = toggle.classList.contains('active');
-
             try {
                 await db.collection('settings').doc('election').set({
                     active: !isActive,
@@ -1252,50 +1006,42 @@
                 });
                 loadElectionStatus();
                 showToast(isActive ? 'Election paused' : 'Election is now LIVE!', 'success');
-            } catch (e) {
-                showToast('Error toggling election');
-            }
+            } catch (e) { showToast('Error toggling election'); }
         }
 
+        // Add Candidate
         async function addCandidate() {
             const name = document.getElementById('candidateName').value.trim();
             const slogan = document.getElementById('candidateSlogan').value.trim();
-
-            if (!name) {
-                showToast('Please enter candidate name');
-                return;
-            }
+            if (!name) { showToast('Enter candidate name'); return; }
 
             try {
                 await db.collection('candidates').add({
-                    name: name,
+                    name,
                     slogan: slogan || '',
                     votes: 0,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 document.getElementById('candidateName').value = '';
                 document.getElementById('candidateSlogan').value = '';
-                showToast('Candidate added successfully!', 'success');
+                showToast('Candidate added!', 'success');
                 loadCandidatesTable();
-            } catch (error) {
-                showToast('Error: ' + error.message);
-            }
+            } catch (e) { showToast('Error: ' + e.message); }
         }
 
+        // Load Candidates Table
         async function loadCandidatesTable() {
             const tbody = document.getElementById('candidatesTable');
-
             try {
-                const snapshot = await db.collection('candidates').orderBy('votes', 'desc').get();
+                const snap = await db.collection('candidates').orderBy('votes', 'desc').get();
                 tbody.innerHTML = '';
 
                 let totalVotes = 0;
                 let candidates = [];
-
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    candidates.push({ id: doc.id, ...data });
-                    totalVotes += (data.votes || 0);
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    candidates.push({ id: doc.id, ...d });
+                    totalVotes += (d.votes || 0);
                 });
 
                 document.getElementById('totalCandidates').textContent = candidates.length;
@@ -1303,146 +1049,129 @@
                 document.getElementById('leadingCandidate').textContent =
                     (candidates.length > 0 && totalVotes > 0) ? candidates[0].name : '-';
 
-                if (candidates.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#888; padding:30px;">No candidates added yet</td></tr>';
+                if (!candidates.length) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#555;padding:40px;">No candidates yet. Add one above.</td></tr>';
                     return;
                 }
 
-                candidates.forEach((c, index) => {
-                    const percentage = totalVotes > 0 ? ((c.votes || 0) / totalVotes * 100).toFixed(1) : 0;
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${index + 1}</td>
+                candidates.forEach((c, i) => {
+                    const pct = totalVotes > 0 ? ((c.votes || 0) / totalVotes * 100).toFixed(1) : 0;
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td style="color:#ff4444;font-weight:700;">${i + 1}</td>
                         <td><strong style="color:#e0e0e0;">${c.name}</strong></td>
-                        <td style="color:#888; font-style:italic;">${c.slogan || '-'}</td>
+                        <td style="color:#777;font-style:italic;">${c.slogan || '-'}</td>
                         <td>
                             <div class="votes-bar">
-                                <div class="bar"><div class="fill" style="width:${percentage}%"></div></div>
+                                <div class="bar"><div class="fill" style="width:${pct}%"></div></div>
                                 <span class="count">${c.votes || 0}</span>
                             </div>
                         </td>
-                        <td style="color:#ff4444; font-weight:600;">${percentage}%</td>
+                        <td style="color:#ff4444;font-weight:700;">${pct}%</td>
                         <td>
                             <button class="btn-delete" onclick="showDeleteModal('${c.id}','${c.name.replace(/'/g,"\\'")}')">
-                                <i class="fas fa-trash"></i> Delete
+                                <i class="fas fa-trash"></i>
                             </button>
                         </td>
                     `;
-                    tbody.appendChild(row);
+                    tbody.appendChild(tr);
                 });
-            } catch (error) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#ff4444; padding:30px;">Error loading data</td></tr>';
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#ff4444;padding:40px;">Error loading data</td></tr>';
             }
         }
 
+        // Voter Logs
         async function loadVoterLogs() {
             const list = document.getElementById('votersList');
-
             try {
-                const snapshot = await db.collection('votes').orderBy('votedAt', 'desc').get();
+                const snap = await db.collection('votes').orderBy('votedAt', 'desc').get();
                 list.innerHTML = '';
-
-                if (snapshot.empty) {
-                    list.innerHTML = '<p style="text-align:center; color:#888; padding:30px;">No votes cast yet</p>';
+                if (snap.empty) {
+                    list.innerHTML = '<p style="text-align:center;color:#555;padding:40px;">No votes cast yet</p>';
                     return;
                 }
-
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    const initial = (data.voterName || data.voterEmail || '?')[0].toUpperCase();
-                    const time = data.votedAt ? data.votedAt.toDate().toLocaleString() : 'Unknown';
-
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    const initial = (d.voterName || d.voterEmail || '?')[0].toUpperCase();
+                    const time = d.votedAt ? d.votedAt.toDate().toLocaleString() : 'Unknown';
                     const item = document.createElement('div');
                     item.className = 'voter-item';
                     item.innerHTML = `
                         <div class="voter-info">
                             <div class="voter-avatar">${initial}</div>
                             <div>
-                                <div class="voter-name">${data.voterName || 'Anonymous'}</div>
-                                <div class="voter-email">${data.voterEmail || 'N/A'}</div>
+                                <div class="voter-name">${d.voterName || 'Anonymous'}</div>
+                                <div class="voter-email">${d.voterEmail || 'N/A'}</div>
                             </div>
                         </div>
                         <div style="text-align:right;">
-                            <div class="voted-for">→ ${data.candidateName}</div>
+                            <div class="voted-for">→ ${d.candidateName}</div>
                             <div class="voted-time">${time}</div>
                         </div>
                     `;
                     list.appendChild(item);
                 });
-            } catch (error) {
-                list.innerHTML = '<p style="text-align:center; color:#ff4444; padding:30px;">Error loading voter logs</p>';
+            } catch (e) {
+                list.innerHTML = '<p style="text-align:center;color:#ff4444;padding:40px;">Error loading logs</p>';
             }
         }
 
         // Delete Candidate
-        let candidateToDelete = null;
+        let toDelete = null;
 
         function showDeleteModal(id, name) {
-            candidateToDelete = { id, name };
+            toDelete = { id, name };
+            document.getElementById('deleteMessage').textContent = `Remove "${name}" from the election?`;
             document.getElementById('deleteModal').classList.remove('hidden');
-            document.getElementById('btnConfirmDelete').onclick = () => deleteCandidate();
+            document.getElementById('btnConfirmDelete').onclick = deleteCandidate;
         }
 
         function hideDeleteModal() {
             document.getElementById('deleteModal').classList.add('hidden');
-            candidateToDelete = null;
+            toDelete = null;
         }
 
         async function deleteCandidate() {
-            if (!candidateToDelete) return;
+            if (!toDelete) return;
             try {
-                await db.collection('candidates').doc(candidateToDelete.id).delete();
-                showToast(`"${candidateToDelete.name}" deleted`, 'success');
+                await db.collection('candidates').doc(toDelete.id).delete();
+                showToast(`"${toDelete.name}" deleted`, 'success');
                 hideDeleteModal();
                 loadCandidatesTable();
-            } catch (error) {
-                showToast('Error deleting candidate');
-            }
+            } catch (e) { showToast('Error deleting'); }
         }
 
         // Reset Votes
-        function showResetModal() {
-            document.getElementById('confirmModal').classList.remove('hidden');
-        }
-
-        function hideResetModal() {
-            document.getElementById('confirmModal').classList.add('hidden');
-        }
+        function showResetModal() { document.getElementById('confirmModal').classList.remove('hidden'); }
+        function hideResetModal() { document.getElementById('confirmModal').classList.add('hidden'); }
 
         async function resetAllVotes() {
             try {
+                // Delete votes
                 const votesSnap = await db.collection('votes').get();
-                const batch1 = db.batch();
-                votesSnap.forEach(doc => batch1.delete(doc.ref));
-                await batch1.commit();
+                const b1 = db.batch();
+                votesSnap.forEach(doc => b1.delete(doc.ref));
+                await b1.commit();
 
-                const candidatesSnap = await db.collection('candidates').get();
-                const batch2 = db.batch();
-                candidatesSnap.forEach(doc => batch2.update(doc.ref, { votes: 0 }));
-                await batch2.commit();
+                // Reset counts
+                const candSnap = await db.collection('candidates').get();
+                const b2 = db.batch();
+                candSnap.forEach(doc => b2.update(doc.ref, { votes: 0 }));
+                await b2.commit();
 
-                showToast('All votes have been reset!', 'success');
+                showToast('All votes reset!', 'success');
                 hideResetModal();
                 loadDashboard();
-            } catch (error) {
-                showToast('Error: ' + error.message);
-            }
+            } catch (e) { showToast('Error: ' + e.message); }
         }
 
-        // Auto-refresh
-        setInterval(() => {
-            if (currentAdmin && !document.getElementById('adminPanel').classList.contains('hidden')) {
-                loadCandidatesTable();
-                loadVoterLogs();
-            }
-        }, 10000);
-
         // Toast
-        function showToast(message, type = 'error') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = 'toast show' + (type === 'success' ? ' success' : '');
-            setTimeout(() => { toast.className = 'toast'; }, 3500);
+        function showToast(msg, type = 'error') {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast show' + (type === 'success' ? ' success' : '');
+            setTimeout(() => t.className = 'toast', 3500);
         }
     </script>
 </body>
